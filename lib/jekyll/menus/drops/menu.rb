@@ -32,7 +32,7 @@ module Jekyll
         #
 
         def to_a
-          @menu.map { |item| Item.new(item, parent) }.sort_by(
+          @menu.map { |item| Item.new(item, parent, self) }.sort_by(
             &:weight
           )
         end

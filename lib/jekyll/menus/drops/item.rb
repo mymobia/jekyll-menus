@@ -6,7 +6,8 @@ module Jekyll
   class Menus
     module Drops
       class Item < Liquid::Drop
-        def initialize(item, parent)
+        def initialize(item, parent, menu)
+          @menu = menu
           @parent = parent
           @item =
             item
@@ -15,9 +16,9 @@ module Jekyll
         #
 
         def children
-          out = @parent.find { |menu| menu.identifier == @item["identifier"] }
+          out = @menu.select { |item| item.parent == @item["identifier"] }
 
-          if out
+          unless out.empty?
             return out.to_a
           end
         end
@@ -43,6 +44,12 @@ module Jekyll
         def identifier
           @item[
             "identifier"
+          ]
+        end
+
+        def parent
+          @item[
+            "parent"
           ]
         end
 
